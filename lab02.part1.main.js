@@ -29,6 +29,9 @@ function getFirstIpAddress(cidrStr, callback) {
     limit: 1
   };
 
+getIpv4MappedIpv6Address(firstIpAddress); 
+    return IpV4V6
+
   // Use the object's isValid() method to verify the passed CIDR.
   if (!cidr.isValid()) {
     // If the passed CIDR is invalid, set an error message.
@@ -36,23 +39,33 @@ function getFirstIpAddress(cidrStr, callback) {
   } else {
     // If the passed CIDR is valid, call the object's toArray() method.
     // Notice the destructering assignment syntax to get the value of the first array's element.
-    [firstIpAddress] = cidr.toArray(options);
+    [IpV4V6] = cidr.toArray(options);
   }
+
+
+
+
   // Call the passed callback function.
   // Node.js convention is to pass error data as the first argument to a callback.
   // The IAP convention is to pass returned data as the first argument and error
   // data as the second argument to the callback function.
-  return callback(firstIpAddress, callbackError);
+  return callback(getFirstIpAddress, callbackError);
 }
 /**
  * Calculates an IPv4-mapped IPv6 address.
  * @param {string} ipv4 - An IPv4 address in dotted-quad format.
  * @return {*} (ipv6Address) - An IPv6 address string or null if a run-time problem was detected.
  */
+
+  let IpV4V6 = {
+      IPV6: ipv6Address,
+      IPV4: ipv4
+
 function getIpv4MappedIpv6Address(ipv4) {
 
   // Initialize return argument
   let ipv6Address = null;
+
 
   // Prepare to derive a Hex version of the dotted-quad decimal IPv4 address.
   // Split the IPv4 address into its four parts.
@@ -90,7 +103,7 @@ function getIpv4MappedIpv6Address(ipv4) {
       }
     }
   }
-  return ipv6Address;
+  return IpV4V6 
 }
 
 /*
@@ -110,13 +123,13 @@ function main() {
     console.log(`\n--- Test Number ${i + 1} getFirstIpAddress(${sampleCidrs[i]}) ---`);
     // Call getFirstIpAddress and pass the test subnet and an anonymous callback function.
     // The callback is using the fat arrow operator: () => { }
-    getFirstIpAddress(sampleCidrs[i], (data, error) => {
+    getFirstIpAddress(sampleCidrs[i], (IpV4V6, error) => {
       // Now we are inside the callback function.
       // Display the results on the console.
       if (error) {
         console.error(`  Error returned from GET request: ${error}`);
       }
-      console.log(`  Response returned from GET request: ${data}`);
+      console.log(`  Response returned from GET request: "ipv4": ${IpV4V6.IPV4}, "ipv6": ${IpV4V6.IPV6}`);
     });
   }
   // Iterate over sampleIpv4s and pass the element's value to getIpv4MappedIpv6Address().
