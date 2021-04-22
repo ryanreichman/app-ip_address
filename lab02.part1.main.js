@@ -38,8 +38,7 @@ function getFirstIpAddress(cidrStr, callback) {
     // If the passed CIDR is valid, call the object's toArray() method.
     // Notice the destructering assignment syntax to get the value of the first array's element.
     [firstIpAddress] = cidr.toArray(options);
-      getIpv4MappedIpv6Address(firstIpAddress)
-    return secondIPAddress;
+      secondIPAddress = getIpv4MappedIpv6Address(firstIpAddress)
   }
 
   // Call the passed callback function.
@@ -122,11 +121,14 @@ function main() {
     getFirstIpAddress(sampleCidrs[i], (ipObject, error) => {
       // Now we are inside the callback function.
       // Display the results on the console.
-      if (error) {
+     let ipObject2 = JSON.stringify(ipObject)
+     if (error) {
         console.error(`  Error returned from GET request: ${error}`);
+        console.log(`  Response returned from GET request: ${ipObject2}`)
       }
       else {
-          console.log(`  Response returned from GET request: ${ipObject.ipv4}, ${ipObject.ipv6}`);
+          let ipObject2 = JSON.stringify(ipObject)
+          console.log(`  Response returned from GET request: ${ipObject2}`);
       }
     });
   }
